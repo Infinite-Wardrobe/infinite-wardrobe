@@ -4,7 +4,7 @@ import * as ClothingController from '../controllers/clothing.controller.js';
 
 const router = Router();
 
-router.get('/', ClothingController.getClothing);
+router.get('/', ClothingController.getWardrobe);
 router.get('/:id', ClothingController.getItem);
 
 router.post('/', ClothingController.createItem);

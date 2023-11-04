@@ -29,7 +29,7 @@ mongoose.connect(
 
 ['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(signal => process.on(signal, handleExit));
 
-function handleExit(signal) {
+const handleExit = signal => {
 	logger.debug(`Received ${signal}, exiting...`);
 	mongoose.disconnect();
 	process.exit();

@@ -2,8 +2,9 @@ name: Backend CI Pipeline
 on: 
   workflow_dispatch:
   push:
-    branches:
-      - main
+    paths:
+      - 'src/server/backend/**'
+    
 
 jobs:
   lint:

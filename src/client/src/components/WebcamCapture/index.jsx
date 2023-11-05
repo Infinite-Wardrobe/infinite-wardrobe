@@ -25,7 +25,12 @@ function WebcamCapture() {
       const handleCapture = React.useCallback(
         async () => {
           const imageSrc = webcamRef.current.getScreenshot();
-          await uploadPicture(imageSrc)
+          uploadPicture(imageSrc).then(() => {
+            alert("Picture uploaded successfully!")
+          }).catch((err) => {
+            alert("Picture upload failed!")
+            console.error(err)
+          });
         },
         [webcamRef]
       );

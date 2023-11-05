@@ -1,32 +1,46 @@
-import React, { useEffect } from 'react'
-import axios from "axios"
-import * as Components from "../../components"
-import styles from "./styles.module.css"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import * as Components from "../../components";
+import styles from "./styles.module.css";
 
 function Home() {
-
-  let {wardrobeContents, setWardrobeContents} = React.useState([])
+  const [data, setData] = useState({ info: "", clothing: [] });
 
   useEffect(() => {
-    axios.get("/api/wardrobe", {
-      withCredentials: true
-    }).then((res) => {
-      console.log(res)
-      setWardrobeContents(res.data)
-    }).catch((err) => {
-      console.error(err)
-    });
-
-    console.log(wardrobeContents)
-  })
-
+    // Fetch users from the API
+    axios
+      .get("/api/clothing")
+      .then((response) => {
+        if (response.data && Array.isArray(response.data.clothing)) {
+          setData(response.data);
+        } else {
+          console.error("API did not return the expected structure");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
+  console.log(data.clothing);
   return (
-    <Components.SafeContainer>
-      <div className={styles.cards_container}>
-       { wardrobeContents.forEach(article => { return <Components.Card imgUrl={article.imageString} title={article.class}/>}) }
-      </div>
-    </Components.SafeContainer>
-  )
+    <div>
+      <p>{data.info}</p>
+      <ul>
+        {(() => {
+          const items = [];
+          data.clothing.forEach((item) => {
+            items.push(
+              <Components.Card
+                imgUrl={item.imageString}
+                title={item.category}
+              />
+            );
+          });
+          return items;
+        })()}
+      </ul>
+    </div>
+  );
 }
 
-export default Home
+export default Home;

@@ -1,6 +1,9 @@
 import React from 'react'
 import Webcam from "react-webcam"
 import uploadPicture from '../../services/uploadPicture';
+import RedButton from "../../assets/rec.png"
+import Replace from "../../assets/replace.png"
+import styles from "./styles.module.css"
 
 function WebcamCapture() {
     const FACING_MODE_USER = "user";
@@ -37,8 +40,10 @@ function WebcamCapture() {
     
       return (
         <>
-          <button onClick={handleSwitch}>Switch camera</button>
-          <button onClick={handleCapture}>Capture photo</button>
+          <div className={styles.icons_container}>
+            <img onClick={handleCapture} src={RedButton} className={styles.icon}/>
+            <img onClick={handleSwitch}  src={Replace} className={styles.icon}/>
+          </div>
           <Webcam
           ref={webcamRef}
             audio={false}

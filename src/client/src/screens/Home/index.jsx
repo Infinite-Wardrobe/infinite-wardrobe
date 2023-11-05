@@ -23,9 +23,7 @@ function Home() {
   }, []);
   console.log(data.clothing);
   return (
-    <div>
-      <p>{data.info}</p>
-      <ul>
+    <div className={styles.cards_container }>
         {(() => {
           const items = [];
           data.clothing.forEach((item) => {
@@ -38,7 +36,6 @@ function Home() {
           });
           return items;
         })()}
-      </ul>
     </div>
   );
 }

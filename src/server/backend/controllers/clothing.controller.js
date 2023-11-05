@@ -39,7 +39,11 @@ export const createItem = async (req, res, next) => {
 	if(!encodedImage) return res.status(400).json({ message: 'No image provided' });
 
 	if (!fs.existsSync(process.env.TMP_DIR)){
-		fs.mkdir(process.env.TMP_DIR, { recursive: true });
+		fs.mkdir(process.env.TMP_DIR, { recursive: true }, (err, path) => {
+			if(err) logger.error(err);
+
+			logger.info('Directory created')
+		});
 	}
 
 	let path;

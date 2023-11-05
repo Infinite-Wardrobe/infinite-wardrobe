@@ -21,15 +21,50 @@ export const createUser = async (req, res, next) => {
 		password: req.body.password
 	});
 
-	user.save((err, dat) => {
-		if(err) return res.status(500).json({ error: getError(err) });
-		return res.status(201).json({ message: 'User created successfully', user: dat });
-	});
+	user.save()
+		.then(dat => {
+			return res.status(201).json({ message: 'User created successfully', user: dat });
+		})
+		.catch(err => {
+			return res.status(500).json({ error: getError(err) });
+		});
 
 };
 
 export const login = async (req, res, next) => {
-	
+	const user = await UserModel.findOne({ username: req.body.username });
+	try {
+		if(!(
+			req.body.password 
+			&& user
+			&& await user.authenticateUser(req.body.password)
+		)) {
+			return res.status(401).json({message: 'Incorrect username or password'});
+		}
+
+		const token = jsonwebtoken.sign(
+			{ id: user._id },
+			process.env.JWT_SECRET,
+			{ expiresIn: '1d' }
+		);
+
+		res.cookie('authorization', token, {
+			expire: new Date() + 86400,
+			httpOnly: true,
+			secure: false
+		});
+
+		res.status(200).json({
+			message: 'Login successful',
+			//authentication: token,
+			user: {
+				id: user._id,
+				username: user.username,
+			}
+		});
+	} catch(err) {
+		return res.status(500).json({ error: getError(err) });
+	}
 };
 
 export const logout = async (req, res, next) => {

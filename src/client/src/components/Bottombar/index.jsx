@@ -8,12 +8,12 @@ function Bottombar() {
   return (
     <section className={styles.container}>
       <div className={styles.button}>
-        <h1 className={styles.button_text}>Wardrobe</h1>
-        {location.pathname == "/" && <div className={styles.button_active}/>}
+      <a href="/" className={`${styles.button_text} ${location.pathname === "/" && styles.button_text_active}`}>Wardrobe</a>
+        {location.pathname === "/" && <div className={styles.button_active}/>}
         </div>
       <div className={styles.button}>
-        <h1 className={styles.button_text}>Camera</h1>
-        {location.pathname == "/upload" && <div className={styles.button_active}/>}
+        <a href='/upload' className={`${styles.button_text} ${location.pathname === "/upload" && styles.button_text_active}`}>Camera</a>
+        {location.pathname === "/upload" && <div className={styles.button_active}/>}
         </div>
     </section>
   )

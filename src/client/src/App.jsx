@@ -15,8 +15,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Screens.Home />}/>
-        <Route path='/upload' element={<Screens.Home />}/>
-        <Route path='/suggestions' element={<Screens.Home />}/>
+        <Route path='/upload' element={<Screens.Upload />}/>
       </Routes>
       <Components.Bottombar/>
     </BrowserRouter>

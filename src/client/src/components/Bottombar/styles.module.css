@@ -1,5 +1,5 @@
 .container {
-    position: absolute;
+    position: fixed;
     background-color: var(--deep-gray);
     max-width: 300px;
     height: 50px;
@@ -37,6 +37,16 @@
     color: var(--gray-shade1);
     font-size: medium;
     font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+    height: 100%; 
+    text-decoration: none;
+}
+
+.button_text_active{
+    color: white;
 }
 
 .button_text:hover{

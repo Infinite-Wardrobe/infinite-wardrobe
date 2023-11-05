@@ -2,15 +2,20 @@ name: Backend CI Pipeline
 on: 
   workflow_dispatch:
   push:
-    branches:
-      - main
+    paths:
+      - 'src/server/backend/**'
+    
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install modules
-        run: yarn
+        run: |
+          cd src/server/backend
+          yarn install --dev
       - name: Run ESLint
-        run: eslint .**/*.js
+        run: |
+          cd src/server/backend
+          eslint .**/*.js

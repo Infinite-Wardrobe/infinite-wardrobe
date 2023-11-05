@@ -9,12 +9,13 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/server/backend
+    env:
+      working-directory: src/server/backend
     steps:
       - uses: actions/checkout@v4
       - name: Install modules
         run: yarn install --dev
+        working-directory: ${{ env.working-directory }}
       - name: Run ESLint
         run: eslint .**/*.js
+        working-directory: ${{ env.working-directory }}

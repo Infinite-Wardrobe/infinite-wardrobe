@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as Screens from "./screens"
 import * as Components from "./components"
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const authToken = cookies.get('authorisation');
 
 if (authToken) {

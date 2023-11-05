@@ -39,8 +39,15 @@ if not os.path.exists(UPLOAD_FOLDER):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def adjust_contrast(img, factor):
+    def contrast(px):
+        return 128 + factor * (px - 128)
+    return img.point(contrast)
+
 def get_image_colors(image_path, model, label_encoder):
+
     image = Image.open(image_path)
+    image = adjust_contrast(image, 1.5)
     pixels = np.array(image.getdata()) / 255.0
     pixels = torch.tensor(pixels, dtype=torch.float32)
 

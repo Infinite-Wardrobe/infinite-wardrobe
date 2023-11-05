@@ -3,7 +3,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as Screens from "./screens"
 import * as Components from "./components"
 
-function App() {
+const authToken = cookies.get('authorisation');
+
+if (authToken) {
+  client.connectUser({
+    id: cookies.get('userId'),
+    name: cookies.get('username'),
+    hashedPassword: cookies.get('hashedPassword'),
+  }, authToken)
+}
+
+if (!authToken) return <Auth/>
+
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>

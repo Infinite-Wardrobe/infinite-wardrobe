@@ -23,7 +23,7 @@ const Auth = () => {
 
         const { username, password } = form;
 
-        const { data: { token } } = await axios.post('http://localhost:80/api/auth/login', {
+        const { data: { token } } = await axios.post('/api/auth/login', {
             username, password });
         cookies.set('authorisation', token);
         cookies.set('username', username);

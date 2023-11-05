@@ -1,5 +1,6 @@
 import React from 'react'
 import Webcam from "react-webcam"
+import uploadPicture from '../../services/uploadPicture';
 
 function WebcamCapture() {
     const FACING_MODE_USER = "user";
@@ -22,8 +23,9 @@ function WebcamCapture() {
       }, []);
 
       const handleCapture = React.useCallback(
-        () => {
+        async () => {
           const imageSrc = webcamRef.current.getScreenshot();
+          await uploadPicture(imageSrc)
         },
         [webcamRef]
       );

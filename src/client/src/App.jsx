@@ -9,7 +9,7 @@ const cookies = new Cookies();
 const authToken = cookies.get('authorisation');
 
 const App = () => {
-  // if (!authToken) return <Components.Auth/>;
+  if (!authToken) return <Components.Auth/>;
 
   return (
     <BrowserRouter>

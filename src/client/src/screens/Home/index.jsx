@@ -18,12 +18,12 @@ function Home() {
     });
 
     console.log(wardrobeContents)
-  })
+  }, [])
 
   return (
     <Components.SafeContainer>
       <div className={styles.cards_container}>
-       { wardrobeContents.forEach(article => { return <Components.Card imgUrl={article.imageString} title={article.class}/>}) }
+       { wardrobeContents && wardrobeContents.forEach(article => { return <Components.Card imgUrl={article.imageString} title={article.class}/>}) }
       </div>
     </Components.SafeContainer>
   )

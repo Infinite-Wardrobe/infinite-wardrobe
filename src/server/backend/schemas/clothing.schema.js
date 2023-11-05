@@ -1,8 +1,14 @@
 import { Schema, model } from 'mongoose';
 
-import { ImageSchema } from './image.schema.js';
-
 export const ClothingSchema = Schema({
+	ownerId: {
+		type: Schema.ObjectId,
+		ref: 'users'
+	},
+	imageString: {
+		type: String,
+		required: true
+	},
 	category: {
 		type: String,
 		required: true
@@ -10,8 +16,7 @@ export const ClothingSchema = Schema({
 	colour: {
 		type: String,
 		required: true
-	},
-	image: ImageSchema
+	}
 	
 }, {collection: 'clothing'}, {timestamps: true});
 

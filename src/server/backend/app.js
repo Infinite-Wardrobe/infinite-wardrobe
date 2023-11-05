@@ -16,8 +16,8 @@ import MethodMiddleware from './middlewares/methods.middleware.js';
 const app = express();
 const __dirname = fileURLToPath(dirname(import.meta.url));
 
-app.use(express.json());
-app.use(bodyParser.json());
+app.use(express.json({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet());

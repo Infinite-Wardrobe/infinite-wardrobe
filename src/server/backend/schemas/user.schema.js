@@ -14,8 +14,7 @@ export const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
-	},
-	clothing: [ClothingSchema]
+	}
 }, {collection: 'users'}, { timestamps: true });
 
 UserSchema.pre('save', async function(next) {

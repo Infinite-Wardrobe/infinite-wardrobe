@@ -1,5 +1,6 @@
 import SafeContainer from "./SafeContainer/index";
-import Navbar from "./Navbar/index";
 import Bottombar from "./Bottombar";
+import Card from "./Card";
+import WebcamCapture from "./WebcamCapture";
 
-export { SafeContainer, Navbar, Bottombar }
+export { SafeContainer, Bottombar, Card, WebcamCapture }

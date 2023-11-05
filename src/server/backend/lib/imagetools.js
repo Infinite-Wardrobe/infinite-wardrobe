@@ -1,6 +1,6 @@
 import axios from 'axios';
 import fs from 'fs/promises';
-import { join } from 'path';
+import { resolve, join } from 'path';
 
 import logger from './logger.js';
 
@@ -24,7 +24,6 @@ export const classifyClothing = async image => {
 		logger.error(err);
 	}
 };
-
 
 export const saveB64Image = async (base64, folder) => {
 	const matches = base64.match(/^data:image\/([A-Za-z+]+);base64,(.+)$/);
@@ -50,4 +49,27 @@ export const saveB64Image = async (base64, folder) => {
 export const imageToB64 = async path => {
 	const data = await fs.readFile(path);
 	return Buffer.from(data).toString('base64');
+};
+
+export const getImageColour = async path => {
+	try {
+	
+
+		const headers = {
+			'Content-Type': 'application/json'
+		}
+
+		const body = {
+			'image_path': resolve(path)
+		}
+
+		const res = await axios.post(process.env.LOCAL_COLOUR_API_URL, body, {
+			headers: headers
+		});
+
+		return res;
+					
+	} catch (err) {
+		logger.error(err);
+	}
 };

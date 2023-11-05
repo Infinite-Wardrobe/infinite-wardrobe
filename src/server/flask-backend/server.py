@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import pickle
+import shutil
 import os
 import numpy as np
 import torch
@@ -150,14 +151,17 @@ model.load_state_dict(torch.load(model_path))
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    """
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
     file = request.files['file']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
+    """
+    if request.json and request.json["image_path"] and os.path.exists(request.json["image_path"]):
         filename = os.path.join(app.config['UPLOAD_FOLDER'], 'input.jpg')
-        file.save(filename)
+        shutil.copy(request.json["image_path"], filename)
         remove_background(filename)
         filename = os.path.join(app.config['UPLOAD_FOLDER'], 'output.jpg')
         image_colors = get_image_colors(filename, model, label_encoder)

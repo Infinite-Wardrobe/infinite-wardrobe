@@ -3,7 +3,7 @@ import sharp from 'sharp';
 import { join } from 'path';
 
 import { ClothingModel } from '../schemas/clothing.schema.js';
-import { classifyClothing, saveB64Image, imageToB64 } from '../lib/imagetools.js';
+import { classifyClothing, saveB64Image, imageToB64, getImageColour } from '../lib/imagetools.js';
 import getError from '../lib/error.js';
 import logger from '../lib/logger.js';
 
@@ -76,7 +76,10 @@ export const createItem = async (req, res, next) => {
 
 			classification.predictions[i].croppedPath = croppedPath;
 			classification.predictions[i].croppedImage = `data:image/jpeg;base64,${await imageToB64(croppedPath)}`;
-			classification.predictions[i].colour = 'red'; // TODO: Replace with real colour detection
+
+			const colours = (await getImageColour(croppedPath)).data;
+			
+			classification.predictions[i].colour = colours[Math.max(colours.length-2, 0)].simple_color;
 		}
 
 		// TODO: Send cropped images to colour detection API

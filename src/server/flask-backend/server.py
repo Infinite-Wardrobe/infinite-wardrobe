@@ -8,6 +8,7 @@ from PIL import Image
 from collections import defaultdict
 from transparent_background import Remover
 import csv
+import cv2
 
 model_path = "color_classifier.pth"
 label_encoder_path = "label_encoder.pkl"
@@ -26,7 +27,10 @@ remover = Remover() # default setting
 
 # Background removal
 def remove_background(image_path):
-    img = Image.open(image_path).convert('RGB') # read image
+    #img = Image.open(image_path).convert('RGB') # read image
+    #image = adjust_contrast(image, 1.5)
+    img = cv2.imread(image_path, 1)
+    img = cv2CLAHE(img)
 
     out = remover.process(img, type="[255,255,255]") # change background with color code [255, 0, 0]
 
@@ -39,6 +43,26 @@ if not os.path.exists(UPLOAD_FOLDER):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+
+def cv2CLAHE(img, clipLimit=2.0, tileGridSize=(8,8)):
+    lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    l_channel, a, b = cv2.split(lab)
+
+    # Applying CLAHE to L-channel
+    # feel free to try different values for the limit and grid size:
+    clahe = cv2.createCLAHE(clipLimit=clipLimit, tileGridSize=tileGridSize)
+    cl = clahe.apply(l_channel)
+
+    # merge the CLAHE enhanced L-channel with the a and b channel
+    limg = cv2.merge((cl,a,b))
+
+    # Converting image from LAB Color model to BGR color spcae
+    enhanced_img = cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+
+    return Image.fromarray(enhanced_img)
+
+
 def adjust_contrast(img, factor):
     def contrast(px):
         return 128 + factor * (px - 128)
@@ -47,7 +71,6 @@ def adjust_contrast(img, factor):
 def get_image_colors(image_path, model, label_encoder):
 
     image = Image.open(image_path)
-    image = adjust_contrast(image, 1.5)
     pixels = np.array(image.getdata()) / 255.0
     pixels = torch.tensor(pixels, dtype=torch.float32)
 

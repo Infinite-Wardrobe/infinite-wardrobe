@@ -9,8 +9,11 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/server/backend
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install modules
         run: yarn install --dev
       - name: Run ESLint

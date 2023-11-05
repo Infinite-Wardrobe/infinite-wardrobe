@@ -8,30 +8,22 @@ const cookies = new Cookies();
 
 const initialState = {
     username: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
 }
 
 const Auth = () => {
     const [form, setForm] = useState(initialState);
-    const [isSignup, setIsSignup] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-    }
-
-    const switchMode = () => {
-        setIsSignup((prevIsSignup) => !prevIsSignup);
     }
 
     const handleSubmit = async (e) => {
         e.event.preventDefault();
 
         const { username, password } = form;
-        
-        const URL = 'http://localhost:80/auth';
 
-        const { data: { token } } = await axios.post(`${URL}/${isSignup ? 'signup' : 'login'}`, {
+        const { data: { token } } = await axios.post('/api/auth/login', {
             username, password });
         cookies.set('authorisation', token);
         cookies.set('username', username);
@@ -43,7 +35,7 @@ const Auth = () => {
         <div className={styles.auth__form_container}>
             <div className={styles.auth__form_container_fields}>
                 <div className={styles.auth__form_container_fields_content}>
-                    <p>{isSignup ? 'Signup' : 'Signin'}</p>
+                    <p>Signin</p>
                     <form onSubmit={handleSubmit}>
                         <div className={styles.auth__form_container_fields_content_input}>
                             <label htmlFor="username">Username</label>
@@ -65,32 +57,10 @@ const Auth = () => {
                                 required
                                 />
                         </div>
-                        {isSignup && (
-                            <div className={styles.auth__form_container_fields_content_input}>
-                                <label htmlFor="confirmPassword">Confirm Password</label>
-                                <input
-                                    name="confirmPassword"
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    onChange={handleChange}
-                                    required
-                                    />
-                            </div>
-                        )}
                         <div className={styles.auth__form_container_fields_content_button}>
-                            <button>{isSignup ? "Sign Up" : "Sign In"}</button>
+                            <button>"Sign In"</button>
                         </div>
                     </form>
-                    <div className={styles.auth__form_container_fields_account}>
-                        <p>
-                            {isSignup
-                            ? "Already have an account?"
-                            : "Don't have an account?"}
-                            <span onClick={switchMode}>
-                                {isSignup ? "Signin" : "Signup"}
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
             <div className={styles.auth__form_container_image}>

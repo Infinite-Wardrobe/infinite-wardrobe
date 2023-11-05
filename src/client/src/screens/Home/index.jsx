@@ -1,14 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import axios from "axios"
 import * as Components from "../../components"
 import styles from "./styles.module.css"
-import Dress from "../../assets/dress.jpeg"
 
 function Home() {
+
+  let {wardrobeContents, setWardrobeContents} = React.useState([])
+
+  useEffect(() => {
+    axios.get("/api/wardrobe", {
+      withCredentials: true
+    }).then((res) => {
+      console.log(res)
+      setWardrobeContents(res.data)
+    }).catch((err) => {
+      console.error(err)
+    });
+
+    console.log(wardrobeContents)
+  })
+
   return (
     <Components.SafeContainer>
       <div className={styles.cards_container}>
-       {Array(20).fill(0).map((_) => { return <Components.Card imgUrl={Dress} title={"Dress"}/>})}
-        
+       { wardrobeContents.forEach(article => { return <Components.Card imgUrl={article.imageString} title={article.class}/>}) }
       </div>
     </Components.SafeContainer>
   )

@@ -50,7 +50,7 @@ export const login = async (req, res, next) => {
 
 		res.cookie('authorization', token, {
 			expire: new Date() + 86400,
-			httpOnly: true,
+			httpOnly: false,
 			secure: false
 		});
 

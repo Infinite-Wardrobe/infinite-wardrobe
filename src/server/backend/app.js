@@ -28,13 +28,33 @@ app.use(cors());
 app.use(LoggerMiddleware);
 app.use(MethodMiddleware);
 
-app.use(express.static(join(__dirname, '../../client/public')));
+app.use((req, res, next) => {
+	if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path) || req.path.startsWith('/api')) {
+		next();
+	} else {
+		res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+		res.header('Expires', '-1');
+		res.header('Pragma', 'no-cache');
+		res.sendFile(join(__dirname, '../../client/build', 'index.html'));
+	}
+});
+
+app.use(express.static(join(__dirname, '../../client/build')));
 app.use('/api/', ApiRouter);
 
 
 app.use((req, res, next) => {
 	res.setHeader('X-Powered-By', 'Consumerism and Capitalism');
 	res.setHeader('X-Author', 'Fast Fashion');
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+	);
+	res.setHeader(
+	 	'Access-Control-Allow-Methods',
+	 	'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+	);
 	next();
 });
 

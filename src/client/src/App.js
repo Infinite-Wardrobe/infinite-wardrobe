@@ -1,16 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as Screens from "./screens"
+import * as Components from "./components"
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Screens.Home />}/>
-        <Route path='/upload' element={<Screens.Home />}/>
-        <Route path='/suggestions' element={<Screens.Home />}/>
-      </Routes>
-    </BrowserRouter>
+    <Components.SafeContainer>
+      <Components.Navbar/>
+      
+      <Components.Bottombar/>
+    </Components.SafeContainer>
   );
 }
 

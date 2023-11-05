@@ -2,8 +2,6 @@ import { Schema, model } from 'mongoose';
 
 import { hashPassword, comparePassword } from '../lib/crypto.js';
 
-import { ClothingSchema } from './clothing.schema.js';
-
 export const UserSchema = new Schema({
 	username: {
 		type: String,

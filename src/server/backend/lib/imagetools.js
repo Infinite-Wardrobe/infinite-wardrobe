@@ -50,4 +50,4 @@ export const saveB64Image = async (base64, folder) => {
 export const imageToB64 = async path => {
 	const data = await fs.readFile(path);
 	return Buffer.from(data).toString('base64');
-}
+};

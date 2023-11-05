@@ -1,32 +1,74 @@
-import React, { useEffect } from 'react'
-import axios from "axios"
-import * as Components from "../../components"
-import styles from "./styles.module.css"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import * as Components from "../../components";
+import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
+import styles from "./styles.module.css";
 
 function Home() {
-
-  let {wardrobeContents, setWardrobeContents} = React.useState([])
+  const [data, setData] = useState({ info: "", clothing: [] });
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedClothingType, setSelectedClothingType] = useState("");
+  const [colors, setColors] = useState([]);
+  const [clothingTypes, setClothingTypes] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/wardrobe", {
-      withCredentials: true
-    }).then((res) => {
-      console.log(res)
-      setWardrobeContents(res.data)
-    }).catch((err) => {
-      console.error(err)
-    });
-
-    console.log(wardrobeContents)
-  })
+    // Fetch users from the API
+    axios
+      .get("/api/clothing")
+      .then((response) => {
+        if (response.data && Array.isArray(response.data.clothing)) {
+          setData(response.data);
+          const unqiueColors = [
+            ...new Set(response.data.clothing.map((item) => item.colour)),
+          ];
+          const unqiueTypes = [
+            ...new Set(response.data.clothing.map((item) => item.category)),
+          ];
+          setColors(unqiueColors);
+          setClothingTypes(unqiueTypes);
+          // console.log(unqiueColors);
+          // console.log(unqiueTypes);
+        } else {
+          console.error("API did not return the expected structure");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
+  // console.log(data.clothing);
 
   return (
-    <Components.SafeContainer>
-      <div className={styles.cards_container}>
-       { wardrobeContents.forEach(article => { return <Components.Card imgUrl={article.imageString} title={article.class}/>}) }
-      </div>
-    </Components.SafeContainer>
-  )
+    <div>
+      <CategoryFilter
+        selectedColor={selectedColor}
+        setSelectedColor={setSelectedColor}
+        selectedClothingType={selectedClothingType}
+        setSelectedClothingType={setSelectedClothingType}
+        clothingTypes={clothingTypes}
+        colors={colors}
+      />
+      {(() => {
+        const items = [];
+        data.clothing.forEach((item) => {
+          if (item.colour == selectedColor || selectedColor == "") {
+            if (
+              item.category == selectedClothingType ||
+              selectedClothingType == ""
+            ) {
+              items.push(
+                <Components.Card
+                  imgUrl={item.imageString}
+                  title={item.category}
+                />
+              );
+            }
+          }
+        });
+        return items;
+      })()}
+    </div>
+  );
 }
 
-export default Home
+export default Home;

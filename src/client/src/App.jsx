@@ -4,20 +4,13 @@ import * as Screens from "./screens"
 import * as Components from "./components"
 import Cookies from 'universal-cookie';
 
+
 const cookies = new Cookies();
 const authToken = cookies.get('authorisation');
 
-if (authToken) {
-  client.connectUser({
-    id: cookies.get('userId'),
-    name: cookies.get('username'),
-    hashedPassword: cookies.get('hashedPassword'),
-  }, authToken)
-}
-
-if (!authToken) return <Auth/>
-
 const App = () => {
+  // if (!authToken) return <Components.Auth/>;
+
   return (
     <BrowserRouter>
       <Routes>

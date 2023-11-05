@@ -28,7 +28,7 @@ function WebcamCapture() {
           await uploadPicture(imageSrc)
         },
         [webcamRef]
-      );
+      );
     
       return (
         <>

@@ -19,14 +19,30 @@ const Auth = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.event.preventDefault();
+        e.preventDefault();
 
         const { username, password } = form;
 
-        const { data: { token } } = await axios.post('/api/auth/login', {
-            username, password });
-        cookies.set('authorisation', token);
-        cookies.set('username', username);
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+
+        const body = {
+            'username': username,
+            'password': password
+        }
+
+        const res = await axios.post('/api/auth/login', body, {
+            headers: headers,
+            withCredentials: true
+        });
+        
+        console.log(res);
+
+        // if(res.status !== 200) {
+        //     alert('Invalid credentials');
+        //     return;
+        // }
 
         window.location.reload();
     }
@@ -36,7 +52,7 @@ const Auth = () => {
             <div className={styles.auth__form_container_fields}>
                 <div className={styles.auth__form_container_fields_content}>
                     <p>Signin</p>
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <div className={styles.auth__form_container_fields_content_input}>
                             <label htmlFor="username">Username</label>
                             <input
@@ -58,7 +74,7 @@ const Auth = () => {
                                 />
                         </div>
                         <div className={styles.auth__form_container_fields_content_button}>
-                            <button>Sign In</button>
+                            <input type="button" onClick={handleSubmit} value="Sign In" />
                         </div>
                     </form>
                 </div>

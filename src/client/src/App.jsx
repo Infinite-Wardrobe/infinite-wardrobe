@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie';
 
 
 const cookies = new Cookies();
-const authToken = cookies.get('authorisation');
+const authToken = cookies.get('authorization');
 
 const App = () => {
   if (!authToken) return <Components.Auth/>;

@@ -2,14 +2,17 @@ import axios from "axios"
 
 const uploadPicture = async (image) => {
     try {
-        const formData = new FormData();
-        formData.append('image', image);
+        console.log(image)
+        const data = {
+          'image': image
+        }
+        const headers = {
+          'Content-Type': 'application/json'
+      }
     
-        const response = await axios.post('http://10.247.101.238:80/api/clothing', formData, {
+        const response = await axios.post('/api/clothing', data, {
+            headers: headers,
             withCredentials: true,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
         });
     
         console.log('Data posted successfully:', response.data);

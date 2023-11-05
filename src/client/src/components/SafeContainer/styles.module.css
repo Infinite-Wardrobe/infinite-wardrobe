@@ -3,5 +3,5 @@
     min-height: 500px;
     width: 100%;
     overflow: hidden;
-    background-color: var(--background);
+    background-color: var(--dark-background);
 }

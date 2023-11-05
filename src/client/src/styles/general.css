@@ -13,9 +13,10 @@ body{
 }
 
 :root {
-  --tertiary: #A5A5A5;
-  --background: #343541;
-  --bottombar: #40414f
+  --gray-shade1: #888899; /* A shade of gray that could be used in various contexts */
+  --dark-background: #343541; /* A general dark background color for any element */
+  --neutral-accent: #40414f; /* A neutral accent color for miscellaneous use */
+  --deep-gray: #202123; /* A deep gray color for general use in dark themes or elements */
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');

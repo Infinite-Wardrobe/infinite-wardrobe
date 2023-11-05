@@ -3,9 +3,9 @@ import * as Components from "../../components"
 
 function Home() {
   return (
-    <section>
+    <Components.SafeContainer>
       
-    </section>
+    </Components.SafeContainer>
   )
 }
 
